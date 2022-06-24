@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Swap widget demo</title>
+
+    <style>
+      body {
+        background: #f2f2f2;
+      }
+
+      @media screen and (min-width: 768px) {
+        .examples {
+          display: grid;
+          gap: 20px;
+          grid-template-columns: repeat(2, 400px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Demo of Keeper Wallet Swap Widget</h1>
+
+    <script src="https://swap-widget.keeper-wallet.app/lib/swap-widget.umd.js"></script>
+
+    <div class="examples">
+      <div>
+        <p>Widget connecting wallet by itself:</p>
+
+        <div id="swap-widget"></div>
+
+        <script>
+          KeeperSwapWidget.create(document.getElementById('swap-widget'));
+        </script>
+      </div>
+
+      <div>
+        <p>Signer passed from the outside:</p>
+
+        <div id="swap-widget-external-signer"></div>
+
+        <script src="https://unpkg.com/@waves/signer@1.0.10/dist/signer.min.js"></script>
+        <script src="https://unpkg.com/@waves/provider-keeper@0.2.5/dist/provider-keeper.js"></script>
+
+        <script>
+          const signer = new window.signer.Signer();
+          signer.setProvider(new window.providerKeeper.ProviderKeeper());
+
+          KeeperSwapWidget.create(
+            document.getElementById('swap-widget-external-signer'),
+            {
+              wallet: {
+                signer,
+                userData: {
+                  address: '3PCj4z3TZ1jqZ7A9zYBoSbHnvRqFq2uy89r',
+                  publicKey: '57tdgQxNNfehn9BQQm834NMiesYzXFEhnPaw1z5yNzHD',
+                },
+              },
+            }
+          );
+        </script>
+      </div>
+    </div>
+  </body>
+</html>
