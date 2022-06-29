@@ -10,33 +10,84 @@
         background: #f2f2f2;
       }
 
-      @media screen and (min-width: 768px) {
-        .examples {
-          display: grid;
-          gap: 20px;
-          grid-template-columns: repeat(2, 400px);
-        }
+      .examples {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       }
     </style>
+
+    <script src="https://swap-widget.keeper-wallet.app/lib/swap-widget.umd.js"></script>
   </head>
   <body>
     <h1>Demo of Keeper Wallet Swap Widget</h1>
 
-    <script src="https://swap-widget.keeper-wallet.app/lib/swap-widget.umd.js"></script>
-
     <div class="examples">
       <div>
-        <p>Widget connecting wallet by itself:</p>
+        <p>Default:</p>
 
-        <div id="swap-widget"></div>
+        <div id="swap-widget-default"></div>
 
         <script>
-          KeeperSwapWidget.create(document.getElementById('swap-widget'));
+          KeeperSwapWidget.create(
+            document.getElementById('swap-widget-default')
+          );
         </script>
       </div>
 
       <div>
-        <p>Signer passed from the outside:</p>
+        <p>Initial asset pair is passed:</p>
+
+        <div id="swap-widget-with-initial-pair"></div>
+
+        <script>
+          KeeperSwapWidget.create(
+            document.getElementById('swap-widget-with-initial-pair'),
+            {
+              initialFromAssetId:
+                '34N9YcEETLWn93qYQ64EsP1x89tSruJU44RrEMSXXEPJ',
+              initialToAssetId: '8LQW8f7P5d5PZM7GtZEBgaqRPGSzS3DfPuiXrURJ4AJS',
+            }
+          );
+        </script>
+      </div>
+
+      <div>
+        <p>With the list of asset ids to swap to:</p>
+
+        <div id="swap-widget-with-to-asset-ids"></div>
+
+        <script>
+          KeeperSwapWidget.create(
+            document.getElementById('swap-widget-with-to-asset-ids'),
+            {
+              toAssetIds: [
+                'C1iWsKGqLwjHUndiQ7iXpdmPum9PeCDFfyXBdJJosDRS',
+                'BwCk5zUMTuYtFFu3euo3g6Fwdk7TALrr5C8wvdzps8R5',
+                'D4TPjtzpsDEJFS1pUAkvh1tJJJMNWGcSrds9sveBoQka',
+              ],
+            }
+          );
+        </script>
+      </div>
+
+      <div>
+        <p>With just one asset id to swap to:</p>
+
+        <div id="swap-widget-with-one-to-asset-id"></div>
+
+        <script>
+          KeeperSwapWidget.create(
+            document.getElementById('swap-widget-with-one-to-asset-id'),
+            {
+              toAssetIds: ['DG2xFkPdDwKUoBkzGAhQtLpSGzfXLiCYPEzeKH2Ad24p'],
+            }
+          );
+        </script>
+      </div>
+
+      <div>
+        <p>External wallet is passed initially:</p>
 
         <div id="swap-widget-external-signer"></div>
 
@@ -44,21 +95,87 @@
         <script src="https://unpkg.com/@waves/provider-keeper@0.2.5/dist/provider-keeper.js"></script>
 
         <script>
-          const signer = new window.signer.Signer();
-          signer.setProvider(new window.providerKeeper.ProviderKeeper());
+          (() => {
+            const signer = new window.signer.Signer();
+            signer.setProvider(new window.providerKeeper.ProviderKeeper());
 
-          KeeperSwapWidget.create(
-            document.getElementById('swap-widget-external-signer'),
-            {
-              wallet: {
-                signer,
-                userData: {
+            KeeperSwapWidget.create(
+              document.getElementById('swap-widget-external-signer'),
+              {
+                useInternalSigner: false,
+                wallet: {
                   address: '3PCj4z3TZ1jqZ7A9zYBoSbHnvRqFq2uy89r',
-                  publicKey: '57tdgQxNNfehn9BQQm834NMiesYzXFEhnPaw1z5yNzHD',
+                  signer,
                 },
+              }
+            );
+          })();
+        </script>
+      </div>
+
+      <div>
+        <p>Using external signer, no wallet passed initially:</p>
+
+        <p>
+          <button id="connect-wallet-button" type="button">
+            Connect wallet
+          </button>
+
+          <button id="disconnect-wallet-button" type="button" disabled>
+            Disconnect wallet
+          </button>
+        </p>
+
+        <div id="swap-widget-with-no-internal-signer"></div>
+
+        <script src="https://unpkg.com/@waves/signer@1.0.10/dist/signer.min.js"></script>
+        <script src="https://unpkg.com/@waves/provider-keeper@0.2.5/dist/provider-keeper.js"></script>
+
+        <script>
+          (() => {
+            const widget = KeeperSwapWidget.create(
+              document.getElementById('swap-widget-with-no-internal-signer'),
+              {
+                useInternalSigner: false,
+              }
+            );
+
+            const connectWalletButton = document.getElementById(
+              'connect-wallet-button'
+            );
+
+            const disconnectWalletButton = document.getElementById(
+              'disconnect-wallet-button'
+            );
+
+            connectWalletButton.addEventListener(
+              'click',
+              () => {
+                connectWalletButton.disabled = true;
+                disconnectWalletButton.disabled = false;
+
+                const signer = new window.signer.Signer();
+                signer.setProvider(new window.providerKeeper.ProviderKeeper());
+
+                widget.setWallet({
+                  address: '3PCj4z3TZ1jqZ7A9zYBoSbHnvRqFq2uy89r',
+                  signer,
+                });
               },
-            }
-          );
+              false
+            );
+
+            disconnectWalletButton.addEventListener(
+              'click',
+              () => {
+                connectWalletButton.disabled = false;
+                disconnectWalletButton.disabled = true;
+
+                widget.setWallet(null);
+              },
+              false
+            );
+          })();
         </script>
       </div>
     </div>
