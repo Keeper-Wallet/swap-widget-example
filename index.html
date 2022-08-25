@@ -3,11 +3,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Swap widget demo</title>
+    <title>Keeper Swap Widget</title>
 
     <style>
       body {
         background: #f2f2f2;
+        font-family: Helvetica;
       }
 
       .examples {
@@ -18,13 +19,53 @@
     </style>
 
     <script src="https://swap-widget.keeper-wallet.app/lib/swap-widget.umd.js"></script>
-  </head>
+
+<script>
+      function viewSource(elem, code) { 
+        document.getElementById(elem).innerHTML = '<textarea rows="12" style="width:100%">' + code + '</textarea>'
+      };
+    </script>
+
+</head>
   <body>
-    <h1>Demo of Keeper Wallet Swap Widget</h1>
+    <h1>Keeper Swap Widget</h1>
+
+    <p>Keeper Swap Widget provides users of your website with a handy tool for exchanging tokens of the Waves ecosystem at the best price. The widget displays all exchange options and suggests the most profitable one in real time. Check the <a href="#demo">Demo</a>!</p>
+
+    <p>By default, the widget uses built-in <a href="https://docs.waves.tech/en/building-apps/waves-api-and-sdk/client-libraries/signer">Signer</a> to connect a user wallet: Keeper, Waves.Exchange, or Ledger. However, if Signer is already implemented on your website, you can pass the Signer object and the user address to the widget so the user don't have to log in twice.</p>
+
+    <ul>
+      <li><a href="#get-started">How to embed widget</a></li>
+      <li><a href="#settings">Widget settings</a></li>
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#functions">Functions</a></li>
+    </ul>
+
+    <h2 id="get-started">How to embed widget</h2>
+
+    <ol>
+      <li>Add the script to your site:
+        <code><pre>&lt;script src="https://swap-widget.keeper-wallet.app/lib/swap-widget.umd.js"&gt;&lt;/script&gt;</pre></code>
+      </li>
+      <li>Set up the widget:
+        <code><pre>KeeperSwapWidget.create( html-element, { widget-settings } )</pre></code>
+      </li>
+      <li>The widget is ready to use!</li>
+    </ol>
+
+    <h2 id="settings">Widget settings</h2>
+    <ul>
+      <li>Dark theme</li>
+      <li>Initial asset pair</li>
+      <li>List of assets to swap to: for example, you can allow users to buy the token of your project only</li>
+      <li>User wallet: the Signer object and the user address</li>
+    </ul>
+
+    <h2 id="demo">Demo</h2>
 
     <div class="examples">
       <div>
-        <p>Default:</p>
+        <h3>Default layout</h3>
 
         <div id="swap-widget-default"></div>
 
@@ -33,10 +74,15 @@
             document.getElementById('swap-widget-default')
           );
         </script>
+
+        <form><input type="button" value="View source" onClick="viewSource('source-default','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\)\n\);')" ></form>
+
+        <div id="source-default"></div>
+
       </div>
 
       <div>
-        <p>Dark mode:</p>
+        <h3>Dark theme</h3>
 
         <div id="swap-widget-dark"></div>
 
@@ -45,10 +91,15 @@
             theme: 'dark',
           });
         </script>
+
+       <form><input type="button" value="View source" onClick="viewSource('source-dark','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ theme\: \'dark\'\,\n\ \ \}\n\);')" ></form>
+
+       <div id="source-dark"></div>
+
       </div>
 
       <div>
-        <p>Initial asset pair is passed:</p>
+        <h3>Initial asset pair</h3>
 
         <div id="swap-widget-with-initial-pair"></div>
 
@@ -62,10 +113,15 @@
             }
           );
         </script>
+
+        <form><input type="button" value="View source" onClick="viewSource('source-initial-pair','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ initialFromAssetId\: \'...\'\,\n\ \ \ \ initialToAssetId\: \'...\'\,\n\ \ \}\n\);')" ></form>
+
+        <div id="source-initial-pair"></div>
+
       </div>
 
       <div>
-        <p>With the list of asset ids to swap to:</p>
+        <h3>Assets to swap to</h3>
 
         <div id="swap-widget-with-to-asset-ids"></div>
 
@@ -81,10 +137,15 @@
             }
           );
         </script>
+
+        <form><input type="button" value="View source" onClick="viewSource('source-to-assets','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ toAssetIds\: \[\'...\'\, ...\],\n\ \ \}\n\);')" ></form>
+
+        <div id="source-to-assets"></div>
+
       </div>
 
       <div>
-        <p>With just one asset id to swap to:</p>
+        <h3>One asset to swap to</h3>
 
         <div id="swap-widget-with-one-to-asset-id"></div>
 
@@ -96,37 +157,18 @@
             }
           );
         </script>
+
+        <form><input type="button" value="View source" onClick="viewSource('source-to-one-asset','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ toAssetIds\: \[\'...\'\],\n\ \ \}\n\);')" ></form>
+
+        <div id="source-to-one-asset"></div>
+
       </div>
 
       <div>
-        <p>External wallet is passed initially:</p>
-
-        <div id="swap-widget-external-signer"></div>
+        <h3>Signer and address passed</h3>
 
         <script src="https://unpkg.com/@waves/signer@1.0.10/dist/signer.min.js"></script>
         <script src="https://unpkg.com/@waves/provider-keeper@0.2.5/dist/provider-keeper.js"></script>
-
-        <script>
-          (() => {
-            const signer = new window.signer.Signer();
-            signer.setProvider(new window.providerKeeper.ProviderKeeper());
-
-            KeeperSwapWidget.create(
-              document.getElementById('swap-widget-external-signer'),
-              {
-                useInternalSigner: false,
-                wallet: {
-                  address: '3PNApGpeE3GNS2CG4AtnvvtAbR2YntioEky',
-                  signer,
-                },
-              }
-            );
-          })();
-        </script>
-      </div>
-
-      <div>
-        <p>Using external signer, no wallet passed initially:</p>
 
         <p>
           <button id="connect-wallet-button" type="button">
@@ -140,11 +182,12 @@
 
         <div id="swap-widget-with-no-internal-signer"></div>
 
-        <script src="https://unpkg.com/@waves/signer@1.0.10/dist/signer.min.js"></script>
-        <script src="https://unpkg.com/@waves/provider-keeper@0.2.5/dist/provider-keeper.js"></script>
-
         <script>
           (() => {
+
+            const signer = new window.signer.Signer();
+            signer.setProvider(new window.providerKeeper.ProviderKeeper());
+
             const widget = KeeperSwapWidget.create(
               document.getElementById('swap-widget-with-no-internal-signer'),
               {
@@ -166,11 +209,10 @@
                 connectWalletButton.disabled = true;
                 disconnectWalletButton.disabled = false;
 
-                const signer = new window.signer.Signer();
-                signer.setProvider(new window.providerKeeper.ProviderKeeper());
+                const user = signer.login();
 
                 widget.setWallet({
-                  address: '3PCj4z3TZ1jqZ7A9zYBoSbHnvRqFq2uy89r',
+                  address: user.address,
                   signer,
                 });
               },
@@ -189,7 +231,45 @@
             );
           })();
         </script>
+
+        <form><input type="button" value="View source" onClick="viewSource('source-external-signer','const signer = new window\.signer\.Signer\(\);\nsigner\.setProvider\(new window\.providerKeeper\.ProviderKeeper\(\)\)\;\n\nKeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ useInternalSigner\: false\,\n\ \ \ \ wallet\: \{\n\ \ \ \ \ \ \ address\: \'3P...\'\,\n\ \ \ \ \ \ \ signer\,\n\ \ \ \ \}\,\n\ \ \}\n\);')" ></form>
+
+        <div id="source-external-signer"></div>
+
       </div>
     </div>
+
+    <h2 id="functions">Widget functions</h2>
+    <ul>
+      <li><tt>setWallet()</tt></li>
+      <li><tt>destroy()</tt></li>
+    </ul>
+
+    <h3 id="functions">setWallet()</h3>
+
+    <p>Use <tt>setWallet()</tt> to pass a user wallet to Keeper Swap Widget if Signer is implemented on your website.</p>
+
+    <p>Connect the user wallet:</p>
+
+    <pre><code>const signer = new window.signer.Signer();
+signer.setProvider(...);
+
+const widget = KeeperSwapWidget.create(...);
+
+widget.setWallet({
+  address,
+  signer,
+});</code></pre>
+
+    <p>Disconnect the user wallet:</p>
+
+    <pre><code>widget.setWallet(null);</code></pre>
+
+    <h3 id="functions">destroy()</h3>
+
+    Remove the widget if it is no longer needed:
+
+    <pre><code>widget.destroy();</code></pre>
+
   </body>
 </html>
