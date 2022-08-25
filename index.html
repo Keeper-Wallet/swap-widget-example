@@ -21,8 +21,8 @@
     <script src="https://swap-widget.keeper-wallet.app/lib/swap-widget.umd.js"></script>
 
 <script>
-      function viewSource(elem, code) { 
-        document.getElementById(elem).innerHTML = '<textarea rows="12" style="width:100%">' + code + '</textarea>'
+      function viewSource(elem, code, lines) { 
+        document.getElementById(elem).innerHTML = '<textarea rows="' + lines +'" style="width:100%">' + code + '</textarea>'
       };
     </script>
 
@@ -75,7 +75,7 @@
           );
         </script>
 
-        <form><input type="button" value="View source" onClick="viewSource('source-default','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\)\n\);')" ></form>
+        <form><input type="button" value="View code sample" onClick="viewSource('source-default','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\)\n\);', 7)" ></form>
 
         <div id="source-default"></div>
 
@@ -92,7 +92,7 @@
           });
         </script>
 
-       <form><input type="button" value="View source" onClick="viewSource('source-dark','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ theme\: \'dark\'\,\n\ \ \}\n\);')" ></form>
+       <form><input type="button" value="View code sample" onClick="viewSource('source-dark','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ theme\: \'dark\'\,\n\ \ \}\n\);', 7)" ></form>
 
        <div id="source-dark"></div>
 
@@ -114,7 +114,7 @@
           );
         </script>
 
-        <form><input type="button" value="View source" onClick="viewSource('source-initial-pair','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ initialFromAssetId\: \'...\'\,\n\ \ \ \ initialToAssetId\: \'...\'\,\n\ \ \}\n\);')" ></form>
+        <form><input type="button" value="View code sample" onClick="viewSource('source-initial-pair','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ initialFromAssetId\: \'...\'\,\n\ \ \ \ initialToAssetId\: \'...\'\,\n\ \ \}\n\);', 7)" ></form>
 
         <div id="source-initial-pair"></div>
 
@@ -138,7 +138,7 @@
           );
         </script>
 
-        <form><input type="button" value="View source" onClick="viewSource('source-to-assets','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ toAssetIds\: \[\'...\'\, ...\],\n\ \ \}\n\);')" ></form>
+        <form><input type="button" value="View code sample" onClick="viewSource('source-to-assets','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ toAssetIds\: \[\'...\'\, ...\],\n\ \ \}\n\);', 7)" ></form>
 
         <div id="source-to-assets"></div>
 
@@ -158,7 +158,7 @@
           );
         </script>
 
-        <form><input type="button" value="View source" onClick="viewSource('source-to-one-asset','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ toAssetIds\: \[\'...\'\],\n\ \ \}\n\);')" ></form>
+        <form><input type="button" value="View code sample" onClick="viewSource('source-to-one-asset','KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ toAssetIds\: \[\'...\'\],\n\ \ \}\n\);', 7)" ></form>
 
         <div id="source-to-one-asset"></div>
 
@@ -166,6 +166,8 @@
 
       <div>
         <h3>Signer and address passed</h3>
+
+        <p>This demo requires Keeper Wallet installed in your browser.</p>
 
         <script src="https://unpkg.com/@waves/signer@1.0.10/dist/signer.min.js"></script>
         <script src="https://unpkg.com/@waves/provider-keeper@0.2.5/dist/provider-keeper.js"></script>
@@ -209,11 +211,11 @@
                 connectWalletButton.disabled = true;
                 disconnectWalletButton.disabled = false;
 
-                const user = signer.login();
-
-                widget.setWallet({
-                  address: user.address,
-                  signer,
+                signer.login().then(user => {
+                  widget.setWallet({
+                    address: user.address,
+                    signer,
+                  });
                 });
               },
               false
@@ -232,7 +234,7 @@
           })();
         </script>
 
-        <form><input type="button" value="View source" onClick="viewSource('source-external-signer','const signer = new window\.signer\.Signer\(\);\nsigner\.setProvider\(new window\.providerKeeper\.ProviderKeeper\(\)\)\;\n\nKeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ useInternalSigner\: false\,\n\ \ \ \ wallet\: \{\n\ \ \ \ \ \ \ address\: \'3P...\'\,\n\ \ \ \ \ \ \ signer\,\n\ \ \ \ \}\,\n\ \ \}\n\);')" ></form>
+        <form><input type="button" value="View code sample" onClick="viewSource('source-external-signer','const signer = new window\.signer\.Signer\(\);\nsigner\.setProvider\(new window\.providerKeeper\.ProviderKeeper\(\)\)\;\n\nconst widget = KeeperSwapWidget\.create\(\n\ \ document\.getElementById\(\'\.\.\.\'\),\n\ \ \{\n\ \ \ \ useInternalSigner\: false\,\n\ \ \}\n\);\nsigner\.login\(\)\.then\(user =\> \{\n\ \ widget\.setWallet\(\{\n\ \ \ \ address: user\.address\,\n\ \ \ \ signer,\n\ \ \}\);\n\}\);', 16)" ></form>
 
         <div id="source-external-signer"></div>
 
