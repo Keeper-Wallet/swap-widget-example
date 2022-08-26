@@ -9,7 +9,7 @@ What’s more, you can become our partner and receive a portion of fee from each
 - [Earn with Keeper Swap Widget](#earn-with-keeper-swap-widget)
 - [How to embed widget](#how-to-embed-widget)
 - [Widget settings](#widget-settings)
-- [Demo](#demos)
+- [Demos](#demos)
 - [Functions](#widget-functions)
 
 ## Earn with Keeper Swap Widget
