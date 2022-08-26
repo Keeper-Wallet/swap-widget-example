@@ -18,8 +18,16 @@ Keeper Swap Widget charges a fee for each exchange: 0.1% of the output amount. Y
 
 How to become a partner:
 
-1. Contact us to register your referral key.
-2. Embed the widget in your website and specify the key in widget settings.
+1. [Fill out the form](https://forms.gle/XuWFtF2mqmMf7yoL8) to get your referral key.
+2. Embed the widget on your website and specify the key as a `referrer` option when creating your widget, like this:
+
+   ```javascript
+    KeeperSwapWidget.create(/* element */, {
+      referrer: 'YOUR KEY',
+      // other options like toAssetIds, theme etc.
+    });
+   ```
+
 3. Enjoy your income!
 
 ## How to embed widget
