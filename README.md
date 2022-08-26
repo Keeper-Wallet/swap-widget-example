@@ -24,7 +24,7 @@ How to become a partner:
    ```javascript
     KeeperSwapWidget.create(/* element */, {
       referrer: 'YOUR KEY',
-      // other options like toAssetIds, theme etc.
+      // other widget settings like toAssetIds, theme etc.
     });
    ```
 
@@ -40,10 +40,11 @@ How to become a partner:
 
 2. Set up the widget:
 
+   ```javascript
+    KeeperSwapWidget.create(/* element */, {
+      /* widget settings */
+    });
    ```
-   KeeperSwapWidget.create( html-element, { widget-settings } )
-   ```
-
    For more examples, check out [Demos](#demos) section below.
 
 3. The widget is ready to use!
