@@ -59,6 +59,8 @@ How to become a partner:
 
 ## Demos
 
+Please not that connecting ledger will not work in these demos, because usb access is disallowed on codepen.
+
 - [Default layout](https://codepen.io/faergeek/pen/OJvYaMY?editors=1000)
 - [Dark theme](https://codepen.io/faergeek/pen/VwXOVKG?editors=1000)
 - [Initial asset pair](https://codepen.io/faergeek/pen/poLmQNb?editors=1000)
